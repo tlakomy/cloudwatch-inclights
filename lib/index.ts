@@ -12,6 +12,20 @@ program
     {
       executableFile: 'list-saved-queries',
     },
+  )
+  .command(
+    'start-query',
+    'schedules a query of a log group using CloudWatch Logs Insights',
+    {
+      executableFile: 'start-query',
+    },
+  )
+  .command(
+    'get-query-results',
+    'returns the results from the specified CloudWatch Logs Insights query',
+    {
+      executableFile: 'get-query-results',
+    },
   );
 
 program.parse(process.argv);
