@@ -20,6 +20,9 @@ void (async () => {
       return sourceRow?.toLowerCase()?.includes(logGroupName.toLowerCase());
     });
 
+    console.log(
+      `Displaying ${filteredQueries?.length} queries filtered by "${logGroupName}" log group name:`,
+    );
     console.log(filteredQueries);
 
     return;
