@@ -4,8 +4,13 @@ import { program } from 'commander';
 import { subDays } from 'date-fns';
 
 program.requiredOption(
-  '-l, --logGroupName <value>',
+  '-g, --logGroupName <value>',
   'The log group on which to perform the query',
+);
+program.option(
+  '-l, --limit <value',
+  'Limit the number of results (10 by default)',
+  '10',
 );
 program.parse(process.argv);
 
@@ -13,6 +18,7 @@ const cloudWatchLogs = new CloudWatchLogs({ apiVersion: '2014-03-28' });
 
 void (async () => {
   const logGroupName: string = program.opts().logGroupName;
+  const limit: string = program.opts().limit;
 
   const data = await cloudWatchLogs
     .startQuery({
@@ -21,10 +27,13 @@ void (async () => {
       queryString: `fields @timestamp, @message
         | filter @message like 'error'
         | sort @timestamp desc
-        | limit 2`,
+        | limit ${limit}`,
       logGroupName,
     })
     .promise();
 
+  console.log(
+    'Query started, call get-query-results with the following queryId:',
+  );
   console.log(data);
 })();
